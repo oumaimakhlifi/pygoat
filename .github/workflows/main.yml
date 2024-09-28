@@ -48,6 +48,7 @@ jobs:
     - name: Build Docker Image
       run: docker build -f Dockerfile -t myappdevsecops:latest .
 
+    # Déclaration de la variable d'environnement ici
     - name: Set HTTP Client Timeout
       run: echo "ACTIONS_HTTP_TIMEOUT=3000" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
 
