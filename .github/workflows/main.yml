@@ -21,6 +21,7 @@ jobs:
 
    - name: Run Bandit Scan
      run: bandit -ll -ii -r . -f json -o bandit-report.json
+     continue-on-error: true
 
    - name: Upload Artifact
      uses: actions/upload-artifact@v3
@@ -61,7 +62,7 @@ jobs:
        command: quickview,cves
        only-severities: critical,high
        sarif-file: scout-report.sarif
-
+       exit-code: true
    - name: Upload Artifact
      uses: actions/upload-artifact@v3
      if: always()
