@@ -86,3 +86,6 @@ jobs:
         docker stop myapp || true
         docker rm myapp || true
         docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
+
+    - name: Set HTTP Client Timeout
+      run: echo "ACTIONS_RUNTIME_ENVIRONMENT=timeout=300" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
