@@ -47,7 +47,7 @@ jobs:
       run: docker --version
 
     - name: Build Docker Image
-      run: docker build -f Dockerfile -t myappdevsecops:latest .
+      run: docker build -f Dockerfile -t oumaimakhelifi/myappdevsecops:latest .
 
     - name: Docker Scout Scan
       run: |
@@ -87,7 +87,7 @@ jobs:
 
     - name: Deploy Locally
       run: |
-        docker pull myappdevsecops:latest
+        docker pull oumaimakhelifi/myappdevsecops:latest
         docker stop myapp || true
         docker rm myapp || true
-        docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
+        docker run -d --name myapp -p 8000:8000 oumaimakhelifi/myappdevsecops:latest
