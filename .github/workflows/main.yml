@@ -89,7 +89,3 @@ jobs:
         docker stop myapp || true
         docker rm myapp || true
         docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
-
-    - name: Set Debugging Logs
-      env:
-        ACTIONS_STEP_DEBUG: true  # Ajoutez ceci pour des logs détaillés
