@@ -1,6 +1,8 @@
 name: CI/CD
 
-on: [push]
+on: 
+  push:
+  workflow_dispatch:  # Ajout pour déclencher manuellement le workflow
 
 jobs:
   sast_scan:
