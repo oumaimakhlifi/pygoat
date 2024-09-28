@@ -49,7 +49,7 @@ jobs:
       run: docker build -f Dockerfile -t myappdevsecops:latest .
 
     - name: Set HTTP Client Timeout
-      run: echo "ACTIONS_HTTP_TIMEOUT=300" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
+      run: echo "ACTIONS_HTTP_TIMEOUT=3000" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
 
     - name: Docker Scout Scan
       uses: docker/scout-action@v1.0.9  # Utilisez une version stable
