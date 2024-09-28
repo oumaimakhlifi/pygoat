@@ -83,7 +83,7 @@ jobs:
       run: echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
 
     - name: Push Docker Image
-      run: docker push myappdevsecops:latest
+      run: docker push oumaimakhelifi/myappdevsecops:latest
 
     - name: Deploy Locally
       run: |
