@@ -2,7 +2,7 @@ name: CI/CD
 
 on: 
   push:
-  workflow_dispatch:  # Ajout pour déclencher manuellement le workflow
+  workflow_dispatch:  # Pour déclencher manuellement le workflow
 
 jobs:
   sast_scan:
@@ -10,66 +10,65 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
 
-      - name: Install Bandit
-        run: pip install bandit
+    - name: Install Bandit
+      run: pip install bandit
 
-      - name: Run Bandit Scan
-        run: bandit -ll -ii -r . -f json -o bandit-report.json
-        continue-on-error: true
+    - name: Run Bandit Scan
+      run: bandit -ll -ii -r . -f json -o bandit-report.json
+      continue-on-error: true
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: bandit-findings
-          path: bandit-report.json
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: bandit-findings
+        path: bandit-report.json
 
   image_scan:
     name: Build Image and Run Image Scan
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker-practice/actions-setup-docker@v1
+    - name: Check Docker Status
+      run: sudo systemctl status docker
 
-      - name: Check Docker Status
-        run: |
-          /usr/bin/sudo systemctl status docker
+    - name: Check Docker Version
+      run: docker --version
 
-      - name: Build Docker Image
-        run: docker build -f Dockerfile -t myappdevsecops:latest .
+    - name: Build Docker Image
+      run: docker build -f Dockerfile -t myappdevsecops:latest .
 
-      - name: Docker Scout Scan
-        run: |
-          # Télécharger et installer le Scout CLI
-          curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
-          sh install-scout.sh
+    - name: Docker Scout Scan
+      run: |
+        # Télécharger et installer le Scout CLI
+        curl -fsSL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh -o install-scout.sh
+        sh install-scout.sh
 
-          # Connexion à Docker Hub
-          echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
+        # Connexion à Docker Hub
+        echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
 
-          # Exécuter les commandes de scan
-          docker scout quickview
-          docker scout cves
-        continue-on-error: true
+        # Exécuter les commandes de scan
+        docker scout quickview
+        docker scout cves
+      continue-on-error: true
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: docker-scout-findings
-          path: scout-report.sarif
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: docker-scout-findings
+        path: scout-report.sarif
 
   push_and_deploy:
     name: Push and Deploy
@@ -77,18 +76,18 @@ jobs:
     needs: image_scan
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Log in to Docker Hub
-        run: echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
+    - name: Log in to Docker Hub
+      run: echo ${{ secrets.REPO_PWD }} | docker login -u ${{ secrets.REPO_USER }} --password-stdin
 
-      - name: Push Docker Image
-        run: docker push myappdevsecops:latest
+    - name: Push Docker Image
+      run: docker push myappdevsecops:latest
 
-      - name: Deploy Locally
-        run: |
-          docker pull myappdevsecops:latest
-          docker stop myapp || true
-          docker rm myapp || true
-          docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
+    - name: Deploy Locally
+      run: |
+        docker pull myappdevsecops:latest
+        docker stop myapp || true
+        docker rm myapp || true
+        docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
