@@ -1,7 +1,7 @@
 FROM python:3.11-buster
 
 # set work directory
-WORKDIR /app
+WORKDIR /app/pygoat
 
 # Update and install dependencies
 RUN apt-get update && \
@@ -27,4 +27,5 @@ RUN python3 /app/manage.py migrate
 
 # Set command to run the application
 WORKDIR /app/pygoat/
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "6", "pygoat.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "6", "pygoat.pygoat.wsgi:application"]
+
