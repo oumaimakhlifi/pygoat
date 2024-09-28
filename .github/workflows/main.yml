@@ -48,8 +48,11 @@ jobs:
     - name: Build Docker Image
       run: docker build -f Dockerfile -t myappdevsecops:latest .
 
+    - name: Set HTTP Client Timeout
+      run: echo "ACTIONS_HTTP_TIMEOUT=300" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
+
     - name: Docker Scout Scan
-      uses: docker/scout-action@v1
+      uses: docker/scout-action@v1.0.9  # Utilisez une version stable
       with:
         dockerhub-user: ${{ secrets.REPO_USER }}
         dockerhub-password: ${{ secrets.REPO_PWD }}
@@ -87,5 +90,6 @@ jobs:
         docker rm myapp || true
         docker run -d --name myapp -p 8000:8000 myappdevsecops:latest
 
-    - name: Set HTTP Client Timeout
-      run: echo "ACTIONS_RUNTIME_ENVIRONMENT=timeout=300" >> $GITHUB_ENV  # Ajustez le délai selon vos besoins
+    - name: Set Debugging Logs
+      env:
+        ACTIONS_STEP_DEBUG: true  # Ajoutez ceci pour des logs détaillés
