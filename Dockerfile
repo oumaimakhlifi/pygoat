@@ -30,6 +30,14 @@ COPY . /app/
 # Exposer le port 8000
 EXPOSE 8000
 
+# Vérifier si 'crispy_bootstrap4' est présent dans requirements.txt
+RUN if ! grep -q "crispy_bootstrap4" requirements.txt; then \
+      echo "crispy_bootstrap4==<version>" >> requirements.txt; \
+    fi
+
+# Installer les dépendances restantes
+RUN pip install --no-cache-dir -r requirements.txt
+
 # Exécuter les migrations
 RUN python3 /app/manage.py migrate
 
