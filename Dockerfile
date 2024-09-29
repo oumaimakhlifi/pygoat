@@ -49,7 +49,7 @@ RUN if ! grep -q "crispy_bootstrap4" requirements.txt; then \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier les fichiers du projet
-COPY . /app/pygoat  # Assurez-vous de copier le bon répertoire
+COPY . .  # Copie tout dans le répertoire de travail courant
 
 # Exposer le port 8000
 EXPOSE 8000
