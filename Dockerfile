@@ -1,31 +1,37 @@
+# Étape 1 : Utiliser PyGoat comme base pour installer les dépendances
+FROM pygoat/pygoat:latest AS pygoat-base
+
+# Étape 2 : Installer Python 3.11 sur l'image de base Python
 FROM python:3.11-buster
 
-# set work directory
+# Définir le répertoire de travail
 WORKDIR /app/pygoat
 
-# Update and install dependencies
+# Mettre à jour et installer les dépendances nécessaires
 RUN apt-get update && \
     apt-get install --no-install-recommends -y dnsutils libpq-dev python3-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Set environment variables
+# Définir des variables d'environnement
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Install pip and other dependencies
+# Installer pip et d'autres dépendances
 RUN python -m pip install --no-cache-dir pip==22.0.4
-COPY requirements.txt requirements.txt
+
+# Copier le fichier requirements.txt depuis l'étape PyGoat
+COPY --from=pygoat-base /app/pygoat/requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
+# Copier les fichiers du projet
 COPY . /app/
 
-# Expose port and run migrations
+# Exposer le port 8000
 EXPOSE 8000
+
+# Exécuter les migrations
 RUN python3 /app/manage.py migrate
 
-# Set command to run the application
-WORKDIR /app/pygoat/
+# Définir la commande pour exécuter l'application
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "6", "pygoat.pygoat.wsgi:application"]
-
