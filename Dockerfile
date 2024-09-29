@@ -39,6 +39,11 @@ RUN if ! grep -q "cryptography" requirements.txt; then \
       echo "cryptography==43.0.1" >> requirements.txt; \
     fi
 
+# Ajouter psycopg2-binary à requirements.txt
+RUN if ! grep -q "psycopg2-binary" requirements.txt; then \
+      echo "psycopg2-binary" >> requirements.txt; \
+    fi
+
 # Installer les dépendances restantes
 RUN pip install --no-cache-dir -r requirements.txt
 
