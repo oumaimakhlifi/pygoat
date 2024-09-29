@@ -39,7 +39,7 @@ RUN if ! grep -q "cryptography" requirements.txt; then \
 
 # Vérifier si 'sqlite3' est présent dans requirements.txt
 RUN if ! grep -q "sqlite3" requirements.txt; then \
-      echo "sqlite3==2.1.0" >> requirements.txt; \
+      echo "sqlite3==1.7.3" >> requirements.txt; \
     fi
 
 # Installer les dépendances restantes
