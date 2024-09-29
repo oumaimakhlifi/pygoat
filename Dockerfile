@@ -7,11 +7,14 @@ FROM python:3.11-slim
 # Définir le répertoire de travail
 WORKDIR /app/pygoat
 
+# Créer le répertoire (facultatif, car WORKDIR le crée automatiquement)
+# RUN mkdir -p /app/pygoat
+
 # Définir des variables d'environnement
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Installer les dépendances nécessaires, y compris gcc et libpq-dev
+# Installer les dépendances nécessaires
 RUN apt-get update && \
     apt-get install -y libsqlite3-dev libpq-dev gcc && \
     python -m pip install --no-cache-dir pip==22.0.4
@@ -45,8 +48,8 @@ RUN if ! grep -q "crispy_bootstrap4" requirements.txt; then \
 # Installer les dépendances restantes
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier les fichiers du projet
-COPY ./* /app/pygoat/  # Assurez-vous que tous les fichiers nécessaires sont copiés ici
+# Copier tous les fichiers du projet
+COPY . /app/pygoat/
 
 # Exposer le port 8000
 EXPOSE 8000
