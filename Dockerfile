@@ -7,9 +7,17 @@ FROM python:3.11-buster
 # Définir le répertoire de travail
 WORKDIR /app/pygoat
 
-# Mettre à jour et installer les dépendances nécessaires
+# Mettre à jour et installer les dépendances nécessaires, y compris SQLite 3.46.1
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y dnsutils libpq-dev python3-dev && \
+    apt-get install --no-install-recommends -y dnsutils libpq-dev python3-dev wget && \
+    wget https://www.sqlite.org/2023/sqlite-autoconf-3460100.tar.gz && \
+    tar xzf sqlite-autoconf-3460100.tar.gz && \
+    cd sqlite-autoconf-3460100 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf sqlite-autoconf-3460100 sqlite-autoconf-3460100.tar.gz && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
