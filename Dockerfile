@@ -44,6 +44,11 @@ RUN if ! grep -q "argon2" requirements.txt; then \
       echo "argon2-cffi==21.3.0" >> requirements.txt; \
     fi
 
+# Vérifier si 'Pillow' est présent dans requirements.txt
+RUN if ! grep -q "Pillow" requirements.txt; then \
+      echo "Pillow" >> requirements.txt; \
+    fi
+
 # Ajouter psycopg2-binary à requirements.txt
 RUN if ! grep -q "psycopg2-binary" requirements.txt; then \
       echo "psycopg2-binary" >> requirements.txt; \
