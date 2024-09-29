@@ -34,7 +34,7 @@ RUN if ! grep -q "PyJWT" requirements.txt; then \
 
 # Vérifier si 'cryptography' est présent dans requirements.txt
 RUN if ! grep -q "cryptography" requirements.txt; then \
-      echo "cryptography==5.1.7" >> requirements.txt; \
+      echo "cryptography==43.0.1" >> requirements.txt; \
     fi
 
 # Vérifier si 'sqlite3' est présent dans requirements.txt
