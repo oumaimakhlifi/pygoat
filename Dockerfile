@@ -7,6 +7,9 @@ FROM python:3.11-slim
 # Définir le répertoire de travail
 WORKDIR /app/pygoat
 
+# Créer le répertoire (facultatif, car WORKDIR le crée automatiquement)
+RUN mkdir -p /app/pygoat
+
 # Définir des variables d'environnement
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
