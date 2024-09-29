@@ -11,9 +11,9 @@ WORKDIR /app/pygoat
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Installer libsqlite3-dev et pip
+# Installer libsqlite3-dev, libpq-dev et pip
 RUN apt-get update && \
-    apt-get install -y libsqlite3-dev && \
+    apt-get install -y libsqlite3-dev libpq-dev && \
     python -m pip install --no-cache-dir pip==22.0.4
 
 # Copier le fichier requirements.txt depuis l'étape PyGoat
