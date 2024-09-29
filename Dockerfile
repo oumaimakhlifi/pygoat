@@ -9,7 +9,7 @@ WORKDIR /app/pygoat
 
 # Mettre à jour et installer les dépendances nécessaires, y compris SQLite 3.46.1
 RUN apt-get update && \
-    apt-get install --no-install-recommends -y dnsutils libpq-dev python3-dev wget && \
+    apt-get install --no-install-recommends -y dnsutils libpq-dev python3-dev wget build-essential && \
     wget https://www.sqlite.org/2023/sqlite-autoconf-3460100.tar.gz && \
     tar xzf sqlite-autoconf-3460100.tar.gz && \
     cd sqlite-autoconf-3460100 && \
