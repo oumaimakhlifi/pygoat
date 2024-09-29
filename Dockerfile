@@ -7,9 +7,6 @@ FROM python:3.11-slim
 # Définir le répertoire de travail
 WORKDIR /app/pygoat
 
-# Créer le répertoire (facultatif, car WORKDIR le crée automatiquement)
-RUN mkdir -p /app/pygoat
-
 # Définir des variables d'environnement
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -49,7 +46,7 @@ RUN if ! grep -q "crispy_bootstrap4" requirements.txt; then \
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier les fichiers du projet
-COPY . .  # Copie tout dans le répertoire de travail courant
+COPY . /app/pygoat  # Assurez-vous que tous les fichiers nécessaires sont copiés ici
 
 # Exposer le port 8000
 EXPOSE 8000
