@@ -2,7 +2,7 @@
 FROM pygoat/pygoat:latest AS pygoat-base
 
 # Étape 2 : Installer Python 3.11 sur l'image de base Python
-FROM python:3.11-buster
+FROM python:3.11-slim
 
 # Définir le répertoire de travail
 WORKDIR /app/pygoat
