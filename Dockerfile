@@ -22,6 +22,13 @@ RUN python -m pip install --no-cache-dir pip==22.0.4
 
 # Copier le fichier requirements.txt depuis l'étape PyGoat
 COPY --from=pygoat-base /app/pygoat/requirements.txt requirements.txt
+
+# Vérifier si 'requests' est présent dans requirements.txt
+RUN if ! grep -q "requests" requirements.txt; then \
+      echo "requests==2.25.1" >> requirements.txt; \
+    fi
+
+# Installer les dépendances
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copier les fichiers du projet
