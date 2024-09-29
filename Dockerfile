@@ -51,6 +51,11 @@ RUN if ! grep -q "cryptography" requirements.txt; then \
       echo "cryptography==43.0.1" >> requirements.txt; \
     fi
 
+# Vérifier si 'sqlite3' est présent dans requirements.txt
+RUN if ! grep -q "sqlite3" requirements.txt; then \
+      echo "sqlite3==3.46.1" >> requirements.txt; \
+    fi
+
 # Installer les dépendances restantes
 RUN pip install --no-cache-dir -r requirements.txt
 
