@@ -38,6 +38,11 @@ RUN if ! grep -q "PyJWT" requirements.txt; then \
       echo "PyJWT==2.9.0" >> requirements.txt; \
     fi
 
+# Vérifier si 'cryptography' est présent dans requirements.txt
+RUN if ! grep -q "cryptography" requirements.txt; then \
+      echo "cryptography==43.0.1" >> requirements.txt; \
+    fi
+
 # Installer les dépendances restantes
 RUN pip install --no-cache-dir -r requirements.txt
 
