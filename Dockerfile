@@ -32,7 +32,7 @@ EXPOSE 8000
 
 # Vérifier si 'crispy_bootstrap4' est présent dans requirements.txt
 RUN if ! grep -q "crispy_bootstrap4" requirements.txt; then \
-      echo "crispy_bootstrap4==<version>" >> requirements.txt; \
+      echo "crispy_bootstrap4==2024.1" >> requirements.txt; \
     fi
 
 # Installer les dépendances restantes
