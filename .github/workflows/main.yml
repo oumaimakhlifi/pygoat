@@ -87,7 +87,7 @@ jobs:
         echo "Waiting before pushing the Docker image..."
         sleep 10  # Attendre 10 secondes
         echo "Pushing Docker image..."
-        docker push oumaimakhelifi/dotnetproject22:latest || { echo "Push failed"; exit 1; }
+        docker push oumaimakhelifi/myappdevsecops:latest || { echo "Push failed"; exit 1; }
     
     - name: Deploy Locally
       run: |
